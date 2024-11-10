@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Techland | Monitoring</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="assets/img/logo.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Agbalumo&family=Lobster&family=Rubik+Mono+One&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="assets/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner"
+            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- Sidebar Start -->
+        <div class="sidebar pe-4 pb-3">
+            <nav class="navbar bg-light navbar-light">
+                <a href="index.html" class="navbar-brand mx-4 mb-3">
+                    <h3 class="text-success lobster">TechLand</h3>
+                </a>
+                <div class="navbar-nav w-100">
+                    <a href="index.html" class="nav-item nav-link text-success"><i
+                            class="fa fa-desktop me-2 text-success"></i>Monitoring</a>
+                    <a href="tanaman.html" class="nav-item nav-link text-success"><i
+                            class="fa fa-seedling me-2 text-success"></i>Data Tanaman</a>
+                    <div class=" ms-2 mt-2 nav-item nav-link">
+                        <button onclick="toggleStatus()" id="toggleButton" class="badge btn-success text-center rounded-pill btnStatus">Otomatis</button>
+                    </div>
+                    <h5 class="text-success lobster ms-4 mt-2 mb-2">Manual</h5>
+                    <a href="#" onclick="toggleOnOff()" id="toggleLink" class="nav-item nav-link text-success">
+                        <i id="toggleIcon" class="fa me-2 text-success"></i>
+                        <span id="toggleText"></span>
+                    </a>
+                    <a href="#" onclick="openLogoutModal()" class="nav-item nav-link text-success">
+                        <i class="fa fa-arrow-right text-success"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+        <!-- Sidebar End -->
+
+
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-2">
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars text-success"></i>
+                </a>
+                <div class="navbar-nav align-items-center ms-auto">
+                    <div class="form-group">
+                        <select id="notificationSelect" class="form-control">
+                            <option value="">Pilih Notifikasi</option>
+                            <option value="1">Pump</option>
+                            <option value="2">Kelembaban</option>
+                            <option value="3">PH</option>
+                        </select>
+                    </div>
+                    <div class="main-header-notification">
+                        <li class="nav-item dropdown show">
+                            <a class="nav-link" data-bs-toggle="dropdown" href="#" aria-expanded="true">
+                                <i class="far fa-bell text-success"></i>
+                            </a>
+                            <div id="notifikasi" class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                <span class="dropdown-item dropdown-header">Notifications</span>
+                                <div class="dropdown-divider"></div>
+                                <div id="notificationContent"></div>
+                            </div>
+                        </li>
+                    </div>
+                    
+                </div>
+            </nav>
+            <!-- Navbar End -->
+
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-light rounded-top p-4">
+                    <div class="row">
+                        <div class="col-12 text-center text-sm-start h3 mb-n1 text-success">
+                            M O N I T O R I N G
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Output -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="bg-success rounded d-flex align-items-center justify-content-between p-5">
+                            <i class="fa fa-tree text-white" style="font-size: xx-large;"></i>
+                            <div class="ms-3">
+                                <p class="mb-2 text-white">TANAMAN</p>
+                                <h6 class="mb-0 text-white" id="count"></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="bg-gold rounded d-flex align-items-center justify-content-between p-5">
+                            <i class="fa fa-mountain text-white" style="font-size: xx-large;"></i>
+                            <div class="ms-3">
+                                <p class="mb-2 text-white">PH TANAH</p>
+                                <h6 class="mb-0 text-white" id="ph"></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="bg-info rounded d-flex align-items-center justify-content-between p-5">
+                            <i class="fa fa-wind text-white" style="font-size: xx-large;"></i>
+                            <div class="ms-3">
+                                <p class="mb-2 text-white">KELEMBABAN</p>
+                                <h6 class="mb-0 text-white" id="lembab"></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="bg-vio rounded d-flex align-items-center justify-content-between p-5">
+                            <i class="fa fa-clock text-white spin-animation" style="font-size: xx-large;"></i>
+                            <div class="ms-3">
+                                <p class="mb-2 text-white">WAKTU</p>
+                                <h6 class="mb-0 text-white" id="waktu"></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light text-center rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Prediksi PH dengan Bobot</h6>
+                            </div>
+                            <canvas id="expPh"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light text-center rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Prediksi Kelembaban dengan Bobot</h6>
+                            </div>
+                            <canvas id="expLembab"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light text-center rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Prediksi PH dengan Pengelompokan</h6>
+                            </div>
+                            <canvas id="movPh"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light text-center rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Prediksi Kelembaban dengan Pengelompokan</h6>
+                            </div>
+                            <canvas id="movLembab"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Output -->
+
+
+            <!-- Footer Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-light rounded-top p-4">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 text-center text-sm-start">
+                            &copy; <a href="#" class="text-success">TechLand</a>, All Right Reserved.
+                        </div>
+                        <div class="col-12 col-sm-6 text-center text-sm-end">
+                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                            Designed By <a href="https://htmlcodex.com" class="text-success">HTML Codex</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer End -->
+        </div>
+        <!-- Content End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-success btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document"> <!-- Tambahkan class modal-dialog-centered di sini -->
+          <div class="modal-content">
+            <div class="modal-body">
+              Apakah Anda yakin ingin keluar?
+            </div>
+            <div class="text-end m-3">
+              <button type="button" class="btn btn-secondary me-2 close" onclick="closeModal()">Batal</button>
+              <button type="button" class="btn btn-success" onclick="logout()">Yakin</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/lib/chart/chart.min.js"></script>
+    <script src="assets/lib/easing/easing.min.js"></script>
+    <script src="assets/lib/waypoints/waypoints.min.js"></script>
+    <script src="assets/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="assets/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="assets/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="assets/js/main.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-auth.js"></script>
+    <script src="script.js"></script>
+    <script>
+        var dbRef = firebase.database().ref('onoff');
+
+        // Mendapatkan snapshot dari data onoff
+        dbRef.once('value').then(function (snapshot) {
+            var currentVal = snapshot.val().val; // Mendapatkan nilai saat ini
+            updateToggleUI(currentVal); // Mengupdate tampilan link dan ikon sesuai dengan nilai saat ini
+        }).catch(function (error) {
+            console.error("Error getting onoff data: ", error);
+        });
+
+        database.ref('status').once('value').then(function (snapshot) {
+          var valStatus = snapshot.val().kondisi; // Mendapatkan nilai saat ini
+          updateButtonStatus(valStatus); // Mengupdate tampilan link dan ikon sesuai dengan nilai saat ini
+        }).catch(function (error) {
+          console.error("Error getting onoff data: ", error);
+        });
+        
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                // Pengguna sudah masuk, biarkan mereka tetap di halaman ini
+                console.log("Pengguna sudah masuk:", user);
+            } else {
+                // Pengguna belum masuk, arahkan mereka ke halaman login
+                window.location.href = "login.html"; // Ganti dengan nama file halaman login Anda
+            }
+        });
+        
+        function logout() {
+            firebase.auth().signOut().then(function () {
+                // Logout berhasil
+                console.log("Logout berhasil");
+                // Redirect ke halaman login atau halaman lain yang sesuai
+                window.location.href = "login.html"; // Ganti dengan halaman yang sesuai
+            }).catch(function (error) {
+                // Tangani kesalahan jika logout gagal
+                console.error("Logout gagal:", error);
+            });
+        }
+
+        function closeModal() {
+            $('#logoutModal').modal('hide'); // Menutup modal menggunakan jQuery
+        }
+
+        function openLogoutModal() {
+            $('#logoutModal').modal('show'); // Membuka modal menggunakan jQuery
+        }
+    </script>
+</body>
+
+</html>
